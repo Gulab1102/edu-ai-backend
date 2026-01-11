@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edu AI Tutor</title>
+    <meta charset="UTF-8">
+
+    <!-- Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- MathJax -->
+    <script>
+      window.MathJax = {
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+
+<body>
+
+<h1>Edu AI Tutor</h1>
+
+<textarea id="question" rows="5" cols="120">
+Generate 5 numerical questions from quadratic equations with full solutions
+</textarea>
+<br><br>
+
+<button onclick="askQuestion()">Ask</button>
+
+<hr>
+
+<div id="output" style="font-size: 17px; line-height: 1.6;"></div>
+
+<script>
+async function askQuestion() {
+    const question = document.getElementById("question").value;
+    const output = document.getElementById("output");
+
+    output.innerHTML = "<i>Thinking...</i>";
+
+    const response = await fetch("http://127.0.0.1:5000/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            role: "student",
+            question: question
+        })
+    });
+
+    const data = await response.json();
+    const answer = data.answer;
+
+    // ✅ Render Markdown + Math
+    output.innerHTML = marked.parse(answer);
+    MathJax.typesetPromise([output]);
+}
+</script>
+
+</body>
+</html>
