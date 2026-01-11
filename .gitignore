@@ -20,6 +20,9 @@ ENV/
 # Python
 __pycache__/
 *.py[cod]
+*.pyc
+*.pyo
+*.pyd
 *$py.class
 *.so
 .Python
@@ -49,8 +52,9 @@ chroma.sqlite3
 vector_db/
 embeddings/
 
-# Data files (optional - uncomment if needed)
-data/class10/
+# Data files (generated)
+data/
+class10/
 
 # Logs
 *.log
